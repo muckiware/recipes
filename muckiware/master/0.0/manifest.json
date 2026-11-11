@@ -1,0 +1,8 @@
+{
+    "bundles": {
+        "Muckiware\\Master\\Administration": ["all"]
+    },
+    "copy-from-recipe": {
+        "bin/": "%BIN_DIR%/"
+    }
+}
