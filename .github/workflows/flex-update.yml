@@ -1,0 +1,31 @@
+---
+name: Update Flex endpoint
+
+# Regenerates the Flex endpoint (index.json, <vendor>.<package>.<version>.json and archived/)
+# and force-pushes it to the "flex/main" branch on every push to main.
+# Same setup as https://github.com/shopware/recipes/blob/main/.github/workflows/flex-update.yml
+
+on:
+    push:
+        branches:
+            - main
+
+defaults:
+    run:
+        shell: bash
+
+jobs:
+    call-flex-update:
+        concurrency: flex-update-${{ github.ref }}
+        # Pinned to the symfony/recipes main commit of 2026-11-11.
+        # To bump: run `git ls-remote https://github.com/symfony/recipes refs/heads/main`,
+        # review the changes of .github/workflows/callable-flex-update.yml since the pinned commit,
+        # then replace the SHA below and update the date in this comment.
+        uses: symfony/recipes/.github/workflows/callable-flex-update.yml@be46f2e9e4e267a270e548e5b7198981fb1a58cd
+        permissions:
+            contents: write
+        with:
+            branch: main
+            contrib: true
+        secrets:
+            token: ${{ secrets.GITHUB_TOKEN }}

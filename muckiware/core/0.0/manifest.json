@@ -1,0 +1,58 @@
+{
+    "bundles": {
+        "Muckiware\\Core\\Framework\\Framework": ["all"],
+        "Muckiware\\Core\\System\\System": ["all"],
+        "Muckiware\\Core\\Content\\Content": ["all"],
+        "Muckiware\\Core\\Installer\\MuckidriveInstaller": ["all"],
+        "Shopware\\Core\\Maintenance\\Maintenance": ["all"],
+        "Shopware\\Core\\DevOps\\DevOps": ["e2e"],
+        "Shopware\\Core\\Profiling\\Profiling": ["all"],
+        "Shopware\\Core\\Service\\Service": ["all"]
+    },
+    "copy-from-recipe": {
+        "bin/": "%BIN_DIR%/",
+        "config/": "%CONFIG_DIR%/",
+        "custom/": "custom/",
+        "files/": "files/",
+        "public/": "%PUBLIC_DIR%/",
+        "var/": "var/",
+        "root/": ""
+    },
+    "container": {
+        "default_cdn_strategy": "physical_filename",
+        "shopware.cdn.strategy": "%env(default:default_cdn_strategy:SHOPWARE_CDN_STRATEGY_DEFAULT)%",
+        "shopware.store.frw": "1",
+        "muckiware.root": "%env(default:kernel.project_dir:resolve:MUCKIWARE_ROOT)%"
+    },
+    "env": {
+        "APP_ENV": "prod",
+        "APP_URL": "http://127.0.0.1:8000",
+        "APP_SECRET": "%generate(secret)%",
+        "INSTANCE_ID": "%generate(secret)%",
+        "BLUE_GREEN_DEPLOYMENT": "0",
+        "DATABASE_URL": "mysql://root:root@localhost/muckidrive"
+    },
+    "gitignore": [
+        "/vendor/",
+        ".env.local",
+        ".env.local.php",
+        ".env.*.local",
+        "/public/bundles/*",
+        "/public/media/*",
+        "/public/thumbnail/*",
+        "/files/*",
+        "!/files/.htaccess",
+        "/var/*",
+        "!/var/.htaccess",
+        "/auth.json",
+        "/install.lock"
+    ],
+    "composer-scripts": {
+        "assets:install": "symfony-cmd"
+    },
+    "post-install-output": [
+        "  * <fg=blue>Configure</> DATABASE_URL and APP_URL in <comment>.env.local</comment>",
+        "  * <fg=blue>Install</> Muckidrive via the web installer at <comment>APP_URL/installer</comment>",
+        "    or run <comment>bin/console system:install --basic-setup</comment>"
+    ]
+}

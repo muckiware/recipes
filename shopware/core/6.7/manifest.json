@@ -1,0 +1,5 @@
+{
+    "post-install-output": [
+        "  * <fg=blue>shopware/core</> is set up by the <comment>muckiware/core</comment> recipe (official Shopware recipe skipped)"
+    ]
+}
