@@ -1,0 +1,15 @@
+{
+    "manifests": {
+        "symfony/mcp-bundle": {
+            "manifest": {
+                "bundles": {
+                    "Symfony\\AI\\McpBundle\\McpBundle": [
+                        "all"
+                    ]
+                }
+            },
+            "files": [],
+            "ref": "25ac2a21f70569b4fe225f495824cff3fce5f9d8"
+        }
+    }
+}

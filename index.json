@@ -1,1 +1,33 @@
-{}
+{
+    "aliases": {
+        "mcp-bundle": "symfony/mcp-bundle",
+        "mcpbundle": "symfony/mcp-bundle"
+    },
+    "recipes": {
+        "muckiware/core": [
+            "0.0",
+            "0.1"
+        ],
+        "muckiware/master": [
+            "0.0"
+        ],
+        "shopware/core": [
+            "6.7"
+        ],
+        "symfony/mcp-bundle": [
+            "0.1"
+        ]
+    },
+    "recipe-conflicts": [],
+    "versions": [],
+    "branch": "main",
+    "is_contrib": true,
+    "_links": {
+        "repository": "github.com/muckiware/recipes",
+        "origin_template": "{package}:{version}@github.com/muckiware/recipes:main",
+        "recipe_template": "https://raw.githubusercontent.com/muckiware/recipes/flex/main/{package_dotted}.{version}.json",
+        "recipe_template_relative": "{package_dotted}.{version}.json",
+        "archived_recipes_template": "https://raw.githubusercontent.com/muckiware/recipes/flex/main/archived/{package_dotted}/{ref}.json",
+        "archived_recipes_template_relative": "archived/{package_dotted}/{ref}.json"
+    }
+}

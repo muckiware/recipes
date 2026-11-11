@@ -1,0 +1,13 @@
+{
+    "manifests": {
+        "shopware/core": {
+            "manifest": {
+                "post-install-output": [
+                    "  * <fg=blue>shopware/core</> is set up by the <comment>muckiware/core</comment> recipe (official Shopware recipe skipped)"
+                ]
+            },
+            "files": [],
+            "ref": "d32e315a88bceba00fcc0cf7c748da7651f8b0b8"
+        }
+    }
+}
