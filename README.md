@@ -15,7 +15,7 @@ Shopware Checkout bundle and the Shopware installer kernel.
 | `muckiware/core` | `0.0` | `0.0.x` | Bundles, project skeleton, front controller using `Muckiware\Core\Installer\InstallerKernel` |
 | `muckiware/core` | `0.1` | `>= 0.1` | Same skeleton, front controller delegates to `Muckiware\Core\Framework\Adapter\Kernel\KernelBootstrap` |
 | `muckiware/master` | `0.0` | `>= 0.0` | Registers `Muckiware\Master\Administration`, adds the administration build scripts to `bin/` |
-| `shopware/core` | `6.7` | `>= 6.7` | **Override**: empty manifest, suppresses the official `shopware/core` recipe |
+| `shopware/core` | `6.7` | `>= 6.7` | **Override**: no bundles and no files, suppresses the official `shopware/core` recipe |
 | `symfony/mcp-bundle` | `0.1` | `>= 0.1` | Registers `Symfony\AI\McpBundle\McpBundle` only (no config or route files) |
 
 ## Usage in a project
@@ -87,12 +87,19 @@ is lower than or equal to it**. Examples:
 
 ### The `shopware/core` override must stay file-less
 
-`shopware/core/6.7/manifest.json` is intentionally `{}`. Its only job is to make Flex use this
-endpoint (and therefore *no* recipe) for `shopware/core`. Do **not** add bundles or files to it:
-`muckiware/core` owns `config/bundles.php`, `public/index.php` and the project skeleton, and two
-recipes writing the same files would conflict. Note that `aliases` (even an empty list) is
-rejected by `lint:manifests --contrib`. The `6.7` version also covers later Shopware releases
-(6.8, ...), so no further version directory is needed.
+`shopware/core/6.7/manifest.json` only contains a `post-install-output` line. Its job is to make
+Flex use this endpoint (and therefore *no* official recipe) for `shopware/core`. Do **not** add
+bundles or files to it: `muckiware/core` owns `config/bundles.php`, `public/index.php` and the
+project skeleton, and two recipes writing the same files would conflict.
+
+The manifest must not be empty, though: `generate:flex-endpoint` silently skips recipes whose
+manifest is empty (`{}`, or only `aliases`), and the package would then be missing from
+`index.json`, so the official Shopware recipe would be applied again. `aliases` is also rejected by
+`lint:manifests --contrib`. A `post-install-output` entry is the only key that keeps the recipe
+listed without touching any project file.
+
+The `6.7` version also covers later Shopware releases (6.8, ...), so no further version
+directory is needed.
 
 ## First-time setup of the GitHub repository
 

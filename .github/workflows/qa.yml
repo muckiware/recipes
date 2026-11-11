@@ -74,6 +74,20 @@ jobs:
             - name: Lint manifests
               run: php .github/recipes-checker/run lint:manifests --contrib
 
+            # generate:flex-endpoint silently skips recipes with an empty manifest; make sure every
+            # <vendor>/<package>/<version> directory ends up in index.json.
+            - name: Generate Flex endpoint (dry run)
+              run: |
+                  out="$RUNNER_TEMP/flex-endpoint"
+                  mkdir -p "$out"
+                  git ls-tree HEAD */*/* | php .github/recipes-checker/run generate:flex-endpoint "$GITHUB_REPOSITORY" main flex/main "$out" --contrib
+                  expected=$(find . -mindepth 4 -maxdepth 4 -name manifest.json -not -path './.*' | sed 's|^\./||; s|/manifest\.json$||' | sort)
+                  actual=$(jq -r '.recipes | to_entries[] | .key as $package | .value[] | "\($package)/\(.)"' "$out/index.json" | sort)
+                  if ! diff <(echo "$expected") <(echo "$actual"); then
+                      echo "::error::index.json does not list every recipe directory (empty manifest?)"
+                      exit 1
+                  fi
+
             - name: Lint YAML files
               run: |
                   files=$(find * -name '*.yaml' -or -name '*.yml')
